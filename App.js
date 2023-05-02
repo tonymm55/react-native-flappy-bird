@@ -53,16 +53,37 @@ export default class App extends Component {
 
     Matter.World.add(world, [bird, floor, ceiling, pipe1, pipe2, pipe3, pipe4]);
 
+    Matter.Events.on(engine, "collisionStart", (event) => {
+      let pairs = event.pairs;
+
+      this.gameEngine.dispatch({ type: "game-over"});
+    });
+
     return {
       physics: { engine: engine, world: world },
       bird: { body: bird, size: [50, 50], color: "red", renderer: Bird },
-      floor: { body: floor, size: [Constants.MAX_WIDTH, 150], color: "green", renderer: Wall },
-      ceiling: { body: ceiling, size: [Constants.MAX_WIDTH, 150], color: "aqua", renderer: Wall },
+      floor: { body: floor, size: [Constants.MAX_WIDTH, 50], color: "green", renderer: Wall },
+      ceiling: { body: ceiling, size: [Constants.MAX_WIDTH, 50], color: "aqua", renderer: Wall },
       pipe1: { body: pipe1, size: [Constants.PIPE_WIDTH, pipe1Height], color: "purple", renderer: Wall },
-      pipe2: { body: pipe2, size: [Constants.PIPE_WIDTH, pipe2Height], color: "red", renderer: Wall },
+      pipe2: { body: pipe2, size: [Constants.PIPE_WIDTH, pipe2Height], color: "purple", renderer: Wall },
       pipe3: { body: pipe3, size: [Constants.PIPE_WIDTH, pipe3Height], color: "blue", renderer: Wall },
-      pipe4: { body: pipe4, size: [Constants.PIPE_WIDTH, pipe4Height], color: "yellow", renderer: Wall },
+      pipe4: { body: pipe4, size: [Constants.PIPE_WIDTH, pipe4Height], color: "blue", renderer: Wall },
     }
+  }
+
+  onEvent = (e) => {
+    if (e.type === "game-over"){
+      this.setState({
+        running: false
+      })
+    }
+  }
+
+  reset = () => {
+    this.gameEngine.swap(this.setupWorld());
+    this.setState({
+      running: true
+    });
   }
 
   render() {
@@ -72,9 +93,16 @@ export default class App extends Component {
           ref={(ref) => { this.gameEngine = ref; }}
           style={styles.gameContainer}
           systems={[Physics]}
-          // running={this.state.running}
-          entities={this.entities} />
+          running={this.state.running}
+          onEvent={this.onEvent}
+          entities={this.entities}>
           <StatusBar hidden={true} />
+        </GameEngine>
+        {!this.state.running && <TouchableOpacity onPress={this.reset} style={styles.fullScreenButton}>
+          <View style={styles.fullScreen}>
+            <Text style={styles.gameOverText}>Game Over!</Text>
+          </View>
+        </TouchableOpacity>}
       </View>
     )
   }  
@@ -83,13 +111,36 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   gameContainer: {
     position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0, 
+    right: 0
   },
+  fullScreenButton: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0, 
+    flex: 1
+  },
+  fullScreen: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0, 
+    backgroundColor: 'black',
+    opacity: 0.8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  gameOverText: {
+    color: 'white',
+    fontSize: 36
+  }
 });
