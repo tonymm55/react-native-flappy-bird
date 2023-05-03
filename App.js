@@ -8,18 +8,17 @@ import Physics from "./Components/Physics";
 import Constants from "./Constants/Constants";
 import Images from "./assets/Images";
 
-
-
-
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.gameEngine = null;
-    this.entities = this.setupWorld();
-
+    
     this.state = {
       running: true,
-    }
+    };
+    
+    this.gameEngine = null;
+
+    this.entities = this.setupWorld();
   }
 
   setupWorld = () => {

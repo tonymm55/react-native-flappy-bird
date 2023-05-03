@@ -98,21 +98,24 @@ const Physics = (entities, { touches, time }) => {
             if (world.gravity.y === 0.0){
                 world.gravity.y = 1.2;
 
-                addPipesAtLocation(Constants.MAX_WIDTH - 100, world, entities);
+                addPipesAtLocation((Constants.MAX_WIDTH * 2) - (Constants.PIPE_WIDTH / 2), world, entities);
+                addPipesAtLocation((Constants.MAX_WIDTH * 3) - (Constants.PIPE_WIDTH / 2), world, entities);
             }
-        }
 
-        hadTouches = true; 
-        Matter.Body.setVelocity( bird, {
-            x: bird.velocity.x,
-            y: -10
-        });
+            hadTouches = true; 
+            Matter.Body.setVelocity( bird, {
+                x: bird.velocity.x,
+                y: -10
+            });
+        }
     });
 
     Matter.Engine.update(engine, time.delta);
 
     Object.keys(entities).forEach(key => {
-        if (key.indexOf("floor") === 0){
+        if (key.indexOf("pipe") === 0){
+            Matter.Body.translate(entities[key].body, {x: -2, y: 0});
+        } else if (key.indexOf("floor") === 0){
             if (entities[key].body.position.x <= -1 * Constants.MAX_WIDTH / 2) {
                 Matter.Body.setPosition(entities[key].body, { x: Constants.MAX_WIDTH + (Constants.MAX_WIDTH / 2), y: entities[key].body.position.y})
             } else {
