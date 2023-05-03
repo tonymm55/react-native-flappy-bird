@@ -4,7 +4,7 @@ import Matter from "matter-js";
 import { GameEngine } from "react-native-game-engine";
 import Bird from "./Components/Bird";
 import Floor from "./Components/Floor";
-import Physics from "./Components/Physics";
+import Physics, { resetPipes } from "./Components/Physics";
 import Constants from "./Constants/Constants";
 import Images from "./assets/Images";
 
@@ -14,6 +14,7 @@ export default class App extends Component {
     
     this.state = {
       running: true,
+      score: 0,
     };
     
     this.gameEngine = null;
@@ -59,17 +60,23 @@ export default class App extends Component {
   }
 
   onEvent = (e) => {
-    if (e.type === "game-over"){
+    if (e.type === "game-over") {
       this.setState({
         running: false
       })
+    } else if (e.type === "score") {
+      this.setState({
+        score: this.state.score + 1
+      })
     }
-  }
+  } 
 
   reset = () => {
+    resetPipes();
     this.gameEngine.swap(this.setupWorld());
     this.setState({
-      running: true
+      running: true,
+      score: 0
     });
   }
 
@@ -86,7 +93,8 @@ export default class App extends Component {
           entities={this.entities}>
           <StatusBar hidden={true} />
         </GameEngine>
-        {!this.state.running && <TouchableOpacity onPress={this.reset} style={styles.fullScreenButton}>
+        <Text style={styles.score}>{this.state.score}</Text>
+        {!this.state.running && <TouchableOpacity style={styles.fullScreenButton} onPress={this.reset}>
           <View style={styles.fullScreen}>
             <Text style={styles.gameOverText}>Game Over!</Text>
           </View>
@@ -137,6 +145,17 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  score: {
+    position: 'absolute',
+    color: 'white',
+    fontSize: 72,
+    top: 50,
+    left: Constants.MAX_WIDTH / 2 - 20, 
+    textShadowColor: '#444444',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    // fontFamily: 'helvetica-times-regular',
   },
   gameOverText: {
     color: 'white',

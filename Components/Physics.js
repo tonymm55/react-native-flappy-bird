@@ -9,6 +9,10 @@ let pipes =0;
 export const randomBetween = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export const resetPipes = () => {
+    pipes = 0;
+}
   
 export const generatePipes = () => {
     let topPipeHeight = randomBetween(100, (Constants.MAX_HEIGHT / 2) - 100);
@@ -87,7 +91,7 @@ export const addPipesAtLocation = (x, world, entities) => {
 
 }
 
-const Physics = (entities, { touches, time }) => {
+const Physics = (entities, { touches, time, dispatch }) => {
     let engine = entities.physics.engine;
     let world = entities.physics.world;
     let bird = entities.bird.body;
@@ -115,6 +119,23 @@ const Physics = (entities, { touches, time }) => {
     Object.keys(entities).forEach(key => {
         if (key.indexOf("pipe") === 0){
             Matter.Body.translate(entities[key].body, {x: -2, y: 0});
+
+            if (key.indexOf("Top") !== -1 && parseInt(key.replace("pipe", "")) % 2 === 0){
+                if (entities[key].body.position.x <= bird.position.x) {
+
+                }
+
+                if(entities[key].body.position.x <= -1 * (Constants.PIPE_WIDTH / 2)){
+                    let pipeIndex = parseInt(key.replace("pipe", ""));
+                    delete (entities["pipe" + (pipeIndex - 1) + "Top"]);
+                    delete (entities["pipe" + (pipeIndex - 1)]);
+                    delete (entities["pipe" + pipeIndex + "Top"]);
+                    delete (entities["pipe" + pipeIndex]);
+
+                    addPipesAtLocation((Constants.MAX_WIDTH * 2) - (Constants.PIPE_WIDTH / 2), world, entities);
+                }
+            }
+
         } else if (key.indexOf("floor") === 0){
             if (entities[key].body.position.x <= -1 * Constants.MAX_WIDTH / 2) {
                 Matter.Body.setPosition(entities[key].body, { x: Constants.MAX_WIDTH + (Constants.MAX_WIDTH / 2), y: entities[key].body.position.y})
