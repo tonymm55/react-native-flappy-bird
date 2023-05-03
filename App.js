@@ -3,8 +3,9 @@ import { Dimensions, StyleSheet, Text, View, StatusBar, Alert, TouchableOpacity,
 import Constants from "./Constants/Constants";
 import { GameEngine } from "react-native-game-engine";
 import Matter from "matter-js";
-import Bird from "./Components/Bird"
-import Wall from "./Components/Wall"
+import Bird from "./Components/Bird";
+import Wall from "./Components/Wall";
+import Floor from "./Components/Floor";
 import Physics from "./Components/Physics";
 
 export const randomBetween = (min, max) => {
