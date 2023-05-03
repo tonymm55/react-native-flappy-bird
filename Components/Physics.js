@@ -65,7 +65,25 @@ export const addPipesAtLocation = (x, world, entities) => {
         { isStatic: true}
     );
 
-    Matter.World.add(world, [pipe1,...//TBC 36 minutes in to the video])
+    Matter.World.add(world, [pipe1, pipe1Top, pipe2, pipe2Top]);
+
+    entities["pipe" + (pipes + 1)] = {
+        body: pipe1, renderer: Pipe
+    }
+
+    entities["pipe" + (pipes + 2)] = {
+        body: pipe2, renderer: Pipe
+    }
+
+    entities["pipe" + (pipes + 1) + "Top"] = {
+        body: pipe1Top, renderer: PipeTop
+    }
+
+    entities["pipe" + (pipes + 2) + "Top"] = {
+        body: pipe2Top, renderer: PipeTop
+    }
+
+    pipes += 2;
 
 }
 
@@ -79,6 +97,8 @@ const Physics = (entities, { touches, time }) => {
         if (!hadTouches){
             if (world.gravity.y === 0.0){
                 world.gravity.y = 1.2;
+
+                addPipesAtLocation(Constants.MAX_WIDTH - 100, world, entities);
             }
         }
 
