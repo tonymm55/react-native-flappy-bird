@@ -4,7 +4,7 @@ import PipeTop from "./PipeTop";
 
 let tick = 0;
 let pose = 1;
-let pipes =0;
+let pipes = 0;
 
 export const randomBetween = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -90,8 +90,8 @@ export const addPipesAtLocation = (x, world, entities) => {
     pipes += 2;
 
 }
-
-const Physics = (entities, { touches, time, dispatch }) => {
+//dispatch is score related and required for project
+const Physics = (entities, { touches, time, dispatch }) => { 
     let engine = entities.physics.engine;
     let world = entities.physics.world;
     let bird = entities.bird.body;
@@ -122,6 +122,7 @@ const Physics = (entities, { touches, time, dispatch }) => {
 
             if (key.indexOf("Top") !== -1 && parseInt(key.replace("pipe", "")) % 2 === 0){
                 if (entities[key].body.position.x <= bird.position.x) {
+                    dispatch({ type: "score" });
 
                 }
 

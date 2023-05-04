@@ -16,7 +16,6 @@ export default class App extends Component {
       running: true,
       score: 0,
     };
-    
     this.gameEngine = null;
 
     this.entities = this.setupWorld();
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     width: Constants.MAX_WIDTH,
     height: Constants.MAX_HEIGHT,
   },
-
   gameContainer: {
     position: 'absolute',
     top: 0,
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
     textShadowColor: '#444444',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
-    // fontFamily: 'helvetica-times-regular',
+    // fontFamily: '?',
   },
   gameOverText: {
     color: 'white',
