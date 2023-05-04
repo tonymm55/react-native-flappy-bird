@@ -72,19 +72,19 @@ export const addPipesAtLocation = (x, world, entities) => {
     Matter.World.add(world, [pipe1, pipe1Top, pipe2, pipe2Top]);
 
     entities["pipe" + (pipes + 1)] = {
-        body: pipe1, renderer: Pipe
+        body: pipe1, renderer: Pipe, scored: false
     }
 
     entities["pipe" + (pipes + 2)] = {
-        body: pipe2, renderer: Pipe
+        body: pipe2, renderer: Pipe, scored: false
     }
 
     entities["pipe" + (pipes + 1) + "Top"] = {
-        body: pipe1Top, renderer: PipeTop
+        body: pipe1Top, renderer: PipeTop, scored: false
     }
 
     entities["pipe" + (pipes + 2) + "Top"] = {
-        body: pipe2Top, renderer: PipeTop
+        body: pipe2Top, renderer: PipeTop, scored: false
     }
 
     pipes += 2;
@@ -117,11 +117,12 @@ const Physics = (entities, { touches, time, dispatch }) => {
     Matter.Engine.update(engine, time.delta);
 
     Object.keys(entities).forEach(key => {
-        if (key.indexOf("pipe") === 0){
+        if (key.indexOf("pipe") === 0 && entities.hasOwnProperty(key)) {
             Matter.Body.translate(entities[key].body, {x: -2, y: 0});
 
             if (key.indexOf("Top") !== -1 && parseInt(key.replace("pipe", "")) % 2 === 0){
-                if (entities[key].body.position.x <= bird.position.x) {
+                if (entities[key].body.position.x <= bird.position.x && !entities[key].scored){
+                    entities[key].scored = true;
                     dispatch({ type: "score" });
 
                 }

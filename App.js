@@ -96,6 +96,7 @@ export default class App extends Component {
         {!this.state.running && <TouchableOpacity style={styles.fullScreenButton} onPress={this.reset}>
           <View style={styles.fullScreen}>
             <Text style={styles.gameOverText}>Game Over!</Text>
+            <Text style={styles.gameOverSubText}>Try Again...</Text>
           </View>
         </TouchableOpacity>}
       </View>
@@ -158,5 +159,9 @@ const styles = StyleSheet.create({
   gameOverText: {
     color: 'white',
     fontSize: 36
+  },
+  gameOverSubText: {
+    color: 'white',
+    fontSize: 24
   }
 });
