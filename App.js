@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     textShadowColor: '#444444',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
-    // fontFamily: '?',
+    // fontFamily: '?', Could not implelment. TODO: learn how to import fonts into EXPO GO
   },
   gameOverText: {
     color: 'white',
