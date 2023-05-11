@@ -1,6 +1,7 @@
 import Matter from "matter-js";
 import Pipe from "./Pipe";
 import PipeTop from "./PipeTop";
+import Constants from "../Constants/Constants";
 
 let tick = 0;
 let pose = 1;
