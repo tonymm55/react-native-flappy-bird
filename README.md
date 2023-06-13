@@ -1,2 +1,2 @@
-To start, run the command 'npm start' from the Command Line
+To start, run the command 'npm run start' from the Command Line
   

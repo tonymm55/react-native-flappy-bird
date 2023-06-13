@@ -1,5 +1,5 @@
 import React, { Component }from 'react';
-import { Dimensions, StyleSheet, Text, View, StatusBar, Alert, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image } from "react-native";
 import Matter from "matter-js";
 import { GameEngine } from "react-native-game-engine";
 import Bird from "./Components/Bird";
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
     textShadowColor: '#444444',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
+    // fontFamily: 'FlappyBirdFont',
     // fontFamily: '?', Could not implelment. TODO: learn how to import fonts into EXPO GO
   },
   gameOverText: {
