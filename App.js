@@ -1,3 +1,12 @@
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+if (typeof document !== 'undefined') {
+  // Running in the browser, set viewport scale
+  const scale = width / Constants.MAX_WIDTH;
+  document.querySelector('meta[name="viewport"]').setAttribute('content', `width=${width}, initial-scale=${scale}`);
+}
+
 import React, { Component }from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image } from "react-native";
 import Matter from "matter-js";
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
     // fontFamily: 'FlappyBirdFont',
-    // fontFamily: '?', Could not implelment. TODO: learn how to import fonts into EXPO GO
+    // fontFamily: '?', Could not implement. TODO: learn how to import fonts into EXPO GO
   },
   gameOverText: {
     color: 'white',
